@@ -6,7 +6,8 @@
   "sideEffects": false,
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "exports": {
     ".": {
@@ -68,5 +69,18 @@
   "homepage": "https://byfungsi.github.io/nori/",
   "bugs": {
     "url": "https://github.com/byfungsi/nori/issues"
-  }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "spreadsheet",
+    "xlsx",
+    "csv",
+    "react",
+    "headless",
+    "pivot"
+  ],
+  "license": "MIT"
 }

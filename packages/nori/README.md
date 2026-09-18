@@ -1,10 +1,10 @@
 # Nori
 
-`@byfungsi/nori` is a TypeScript spreadsheet library with a canonical JSON model, a platform-independent runtime, an XLSX adapter, and composable React views. This is an initial working milestone, not full Excel compatibility. Nothing has been published to npm by this repository setup.
+`@byfungsi/nori` is a TypeScript spreadsheet library with a canonical JSON model, a platform-independent runtime, an XLSX adapter, and composable React views. This is an initial working milestone, not full Excel compatibility.
 
 ## Public entrypoints
 
-Use the root for `parseXlsx`, `createWorkbook`, and common model types. Focused APIs live at `/model`, `/xlsx`, `/core`, `/formula`, `/pivot`, and `/react`.
+Use the root for `parseXlsx`, `createWorkbook`, and common model types. Focused APIs live at `/model`, `/xlsx`, `/csv`, `/core`, `/formula`, `/pivot`, and `/react`.
 
 React is an optional peer dependency. Install React only when importing `/react`. Headless layers never import React or DOM APIs. Internal workspace packages are bundled into this package.
 
@@ -15,3 +15,5 @@ Parsers and commands return explicit Result values. See the source repository do
 The XLSX adapter preserves merged cells, dimensions, hidden rows/columns, worksheet value/custom filters, and saved value-sort metadata. Advanced and table-level filters/sorts are not yet supported.
 
 CSV is supported through `parseCsv` at the root and `/csv`. It accepts decoded text and returns a single-sheet snapshot, with optional delimiter and value-inference settings. Formula-like values remain text.
+
+See the [documentation](https://byfungsi.github.io/nori/) for installation, examples, and compatibility details. Maintainers can follow the [release guide](https://byfungsi.github.io/nori/publishing.html).

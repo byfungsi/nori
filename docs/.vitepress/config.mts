@@ -76,6 +76,7 @@ export default defineConfig({
           { text: "Agent integration guide", link: "/agents" },
           { text: "Contributing & verification", link: "/contributing" },
           { text: "Verification record", link: "/verification" },
+          { text: "Publishing to npm", link: "/publishing" },
         ],
       },
     ],

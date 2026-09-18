@@ -1,6 +1,6 @@
 # Nori
 
-`@byfungsi/nori` is a TypeScript spreadsheet library with a canonical JSON model, a platform-independent runtime, an XLSX adapter, and composable React views. This is an initial working milestone, not full Excel compatibility. Nothing has been published to npm by this repository setup.
+`@byfungsi/nori` is a TypeScript spreadsheet library with a canonical JSON model, a platform-independent runtime, an XLSX adapter, and composable React views. This is an initial working milestone, not full Excel compatibility. Install it with `npm install @byfungsi/nori`.
 
 ## Run locally
 

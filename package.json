@@ -22,7 +22,8 @@
     "docs:preview": "vitepress preview docs --host 127.0.0.1 --port 4179",
     "docs:verify-browser": "node scripts/verify-docs-browser.mjs",
     "docs:playground": "node scripts/build-docs-playground.mjs",
-    "docs:verify-playground": "node scripts/verify-playground.mjs"
+    "docs:verify-playground": "node scripts/verify-playground.mjs",
+    "release:prepare": "node scripts/prepare-release.mjs"
   },
   "devDependencies": {
     "@testing-library/react": "^16.3.0",
@@ -50,5 +51,6 @@
     "vitepress": {
       "vite": "^6.4.3"
     }
-  }
+  },
+  "license": "MIT"
 }

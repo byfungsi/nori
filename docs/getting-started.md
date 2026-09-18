@@ -1,19 +1,9 @@
 # Quick start
 
-## Install a local package
-
-This repository has not published Nori to npm. From the repository root:
+## Install
 
 ```sh
-npm ci
-npm run build
-npm pack --workspace @byfungsi/nori
-```
-
-In your application's directory, install the generated archive (adjust its path):
-
-```sh
-npm install /path/to/nori/byfungsi-nori-0.1.0.tgz
+npm install @byfungsi/nori
 ```
 
 For the React renderer, also install compatible React peers:

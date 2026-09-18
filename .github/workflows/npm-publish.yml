@@ -1,0 +1,46 @@
+name: Publish npm package
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact package version to publish (must match package.json)
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.20.0"
+          cache: npm
+      - run: npm ci
+      - run: npm install --global npm@11.6.2
+      - name: Verify and prepare exact release archive
+        run: npm run release:prepare -- --require-license
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+      - name: Preserve checked release archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-release
+          path: artifacts/release/
+      - name: Publish through npm trusted publishing
+        run: |
+          node --input-type=module <<'JS'
+          import { readFileSync } from 'node:fs';
+          import { execFileSync } from 'node:child_process';
+          const packed = JSON.parse(readFileSync('artifacts/release/manifest.json', 'utf8'));
+          execFileSync('npm', ['publish', `artifacts/release/${packed.filename}`, '--access', 'public', '--registry', 'https://registry.npmjs.org/'], { stdio: 'inherit' });
+          JS
