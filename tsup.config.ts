@@ -4,6 +4,7 @@ export default defineConfig({
     "src/index.ts",
     "src/model.ts",
     "src/xlsx.ts",
+    "src/csv.ts",
     "src/core.ts",
     "src/formula.ts",
     "src/pivot.ts",

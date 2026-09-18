@@ -1,0 +1,13 @@
+{
+  "name": "@nori-internal/csv",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@nori-internal/model": "0.1.0"
+  }
+}

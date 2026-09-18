@@ -1,7 +1,7 @@
 {
   "name": "@byfungsi/nori",
   "version": "0.1.0",
-  "description": "Platform-independent spreadsheet runtime with XLSX and composable React adapters",
+  "description": "Platform-independent spreadsheet runtime with XLSX/CSV import and composable React adapters",
   "type": "module",
   "sideEffects": false,
   "files": [
@@ -36,6 +36,10 @@
     "./react": {
       "types": "./dist/react.d.ts",
       "import": "./dist/react.js"
+    },
+    "./csv": {
+      "types": "./dist/csv.d.ts",
+      "import": "./dist/csv.js"
     }
   },
   "main": "./dist/index.js",

@@ -23,7 +23,8 @@
       "@nori-internal/xlsx": ["packages/xlsx/src/index.ts"],
       "@nori-internal/react": ["packages/react/src/index.tsx"],
       "@byfungsi/nori": ["packages/nori/src/index.ts"],
-      "@byfungsi/nori/*": ["packages/nori/src/*"]
+      "@byfungsi/nori/*": ["packages/nori/src/*"],
+      "@nori-internal/csv": ["packages/csv/src/index.ts"]
     },
     "types": ["node", "vitest/globals"]
   },

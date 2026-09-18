@@ -3,7 +3,7 @@ layout: home
 hero:
   name: Nori
   text: Spreadsheets, on your terms.
-  tagline: Parse XLSX, calculate formulas, build pivots and compose React views. One public package. A platform-independent core.
+  tagline: Import XLSX and CSV, calculate formulas, build pivots and compose React views. One public package. A platform-independent core.
   actions:
     - theme: brand
       text: Start building

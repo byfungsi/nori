@@ -40,6 +40,7 @@ for (const entry of [
   "formula",
   "pivot",
   "xlsx",
+  "csv",
 ])
   assert.ok(read("types/" + entry + ".d.ts").length > 20);
 for (const name of readdirSync(resolve(root, "types"))) {
@@ -60,5 +61,5 @@ console.log(
 
 assert.ok(read("demo/index.html").includes("./assets/"));
 assert.ok(read("playground.html").includes(`${manifest.base}demo/?embed=1`));
-for (const fixture of ["sample.xlsx", "layout.xlsx"])
+for (const fixture of ["sample.xlsx", "layout.xlsx", "sample.csv"])
   assert.ok(existsSync(resolve(root, "demo", fixture)));

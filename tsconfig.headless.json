@@ -10,7 +10,8 @@
     "packages/formula/src/**/*.ts",
     "packages/pivot/src/**/*.ts",
     "packages/core/src/**/*.ts",
-    "packages/xlsx/src/**/*.ts"
+    "packages/xlsx/src/**/*.ts",
+    "packages/csv/src/**/*.ts"
   ],
   "exclude": ["**/*.test.*"]
 }

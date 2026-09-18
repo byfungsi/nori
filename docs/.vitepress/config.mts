@@ -49,6 +49,7 @@ export default defineConfig({
           { text: "Quick start", link: "/getting-started" },
           { text: "React integration", link: "/react" },
           { text: "XLSX import", link: "/importing" },
+          { text: "CSV import", link: "/csv" },
         ],
       },
       {

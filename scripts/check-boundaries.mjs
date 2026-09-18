@@ -7,8 +7,9 @@ const allowed = {
   pivot: ["model"],
   core: ["model", "formula"],
   xlsx: ["model"],
+  csv: ["model"],
   react: ["model", "core", "formula"],
-  nori: ["model", "core", "formula", "xlsx", "react", "pivot"],
+  nori: ["model", "core", "formula", "xlsx", "csv", "react", "pivot"],
 };
 function files(path) {
   return readdirSync(path, { withFileTypes: true }).flatMap((entry) =>

@@ -1,6 +1,6 @@
 import { defineConfig } from "vitest/config";
 import { resolve } from "node:path";
-const names = ["model", "formula", "pivot", "core", "xlsx", "react"];
+const names = ["model", "formula", "pivot", "core", "xlsx", "csv", "react"];
 export default defineConfig({
   resolve: {
     alias: Object.fromEntries([

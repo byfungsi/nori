@@ -39,6 +39,7 @@ This is a complete, typechecked example. Expected failures are Result values; th
 | `@byfungsi/nori`         | Convenient model constructors, XLSX parser and runtime            |
 | `@byfungsi/nori/model`   | Canonical types, validation, addresses, ranges and Result helpers |
 | `@byfungsi/nori/core`    | Runtime, commands, selection and layout                           |
+| `@byfungsi/nori/csv`     | Text CSV to a single-sheet snapshot                               |
 | `@byfungsi/nori/xlsx`    | Byte-to-snapshot adapter                                          |
 | `@byfungsi/nori/formula` | AST parser, evaluator, registry and dependency graph              |
 | `@byfungsi/nori/pivot`   | Semantic grouping and aggregation                                 |

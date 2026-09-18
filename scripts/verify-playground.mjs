@@ -97,6 +97,28 @@ try {
   cli("upload", "input[type=file]", samplePath);
   cli("wait", "1000");
   assert.ok(evaluate("document.body.innerText").includes("Opened sample.xlsx"));
+  const csvResponse = await fetch(new URL("demo/sample.csv", site));
+  assert.equal(csvResponse.status, 200);
+  const csvPath = join(temp, "sample.csv");
+  writeFileSync(csvPath, await csvResponse.text());
+  cli("upload", "input[type=file]", csvPath);
+  cli("wait", "1000");
+  assert.ok(evaluate("document.body.innerText").includes("Opened sample.csv"));
+  assert.equal(
+    evaluate(
+      'document.querySelector(".nori-grid [data-cell-address=C2]").textContent',
+    ),
+    "Quoted, comma",
+  );
+  cli("dblclick", ".nori-grid [data-cell-address=B1]");
+  cli("fill", '[aria-label="Edit B1"]', "=SUM(B2:B4)");
+  cli("press", "Enter");
+  assert.equal(
+    evaluate(
+      'document.querySelector(".nori-grid [data-cell-address=B1]").textContent',
+    ),
+    "2650",
+  );
   cli("set", "viewport", "390", "844");
   assert.ok(evaluate("document.documentElement.scrollWidth <= innerWidth"));
   cli("open", new URL("playground.html", site).href);
@@ -104,7 +126,7 @@ try {
   assert.ok(evaluate("document.documentElement.scrollWidth <= innerWidth"));
   assert.equal(cli("errors"), "");
   console.log(
-    "Live playground passed: embedded selection, editing, calculation, cross-sheet totals, undo, read-only, reset, hosted XLSX import and mobile layout.",
+    "Live playground passed: embedded selection, editing, calculation, cross-sheet totals, undo, read-only, reset, hosted XLSX/CSV imports and mobile layout.",
   );
 } finally {
   cli("close");

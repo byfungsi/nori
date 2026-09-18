@@ -1,0 +1,5 @@
+Region,Revenue,Note
+West,1200,"Quoted, comma"
+East,850,"Line one
+Line two"
+West,600,"He said ""hello"""

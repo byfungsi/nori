@@ -13,3 +13,5 @@ Parsers and commands return explicit Result values. See the source repository do
 `/react` exports `Spreadsheet` for editing and `SpreadsheetPreview` for compact read-only chat attachments. Both support multiple sheets and workbook styles. The editor includes drag/Shift selection, row/column resizing, merge/unmerge and imported frozen panes. Preview sheet switching is local to the preview.
 
 The XLSX adapter preserves merged cells, dimensions, hidden rows/columns, worksheet value/custom filters, and saved value-sort metadata. Advanced and table-level filters/sorts are not yet supported.
+
+CSV is supported through `parseCsv` at the root and `/csv`. It accepts decoded text and returns a single-sheet snapshot, with optional delimiter and value-inference settings. Formula-like values remain text.

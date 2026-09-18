@@ -41,6 +41,8 @@ try {
  import * as pivot from '@byfungsi/nori/pivot';
  import * as core from '@byfungsi/nori/core';
  import * as xlsx from '@byfungsi/nori/xlsx';
+ import {parseCsv} from '@byfungsi/nori/csv';
+ assert.equal(parseCsv('a,b').ok,true);
  const require=createRequire(import.meta.url);
  assert.throws(()=>require.resolve('react'));
  const imported=parseXlsx(new Uint8Array(readFileSync('basic.xlsx')));assert.equal(imported.ok,true);
@@ -98,7 +100,15 @@ try {
     ],
     { cwd: temp, stdio: "pipe" },
   );
-  for (const entry of ["index", "core", "formula", "pivot", "model", "xlsx"]) {
+  for (const entry of [
+    "index",
+    "core",
+    "formula",
+    "pivot",
+    "model",
+    "xlsx",
+    "csv",
+  ]) {
     const bundled = await build({
       entryPoints: [resolve(`packages/nori/dist/${entry}.js`)],
       bundle: true,
@@ -113,7 +123,7 @@ try {
     if (inputs.some((name) => /node_modules\/react\//.test(name)))
       throw Error(`${entry} pulled in React`);
     if (
-      ["core", "formula", "pivot", "model"].includes(entry) &&
+      ["core", "formula", "pivot", "model", "csv"].includes(entry) &&
       inputs.some((name) =>
         /node_modules\/(fflate|fast-xml-parser)\//.test(name),
       )

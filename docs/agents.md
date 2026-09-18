@@ -7,7 +7,7 @@ This guide describes the implemented Nori 0.1.0 API. It is an integration contra
 - [llms.txt](/llms.txt): compact reading order and per-page links.
 - [llms-full.txt](/llms-full.txt): all documentation with code includes expanded.
 - [docs-manifest.json](/docs-manifest.json): package version, routes, source paths and SHA-256 content hashes.
-- [Public declaration index](/types/index.d.ts): generated root API; relative declaration files are served beside it. Other entries include `/types/react.d.ts`, `/types/core.d.ts`, `/types/model.d.ts`, `/types/xlsx.d.ts`, `/types/formula.d.ts`, `/types/pivot.d.ts`.
+- [Public declaration index](/types/index.d.ts): generated root API; relative declaration files are served beside it. CSV declarations are at `types/csv.d.ts`. Other entries include `/types/react.d.ts`, `/types/core.d.ts`, `/types/model.d.ts`, `/types/xlsx.d.ts`, `/types/formula.d.ts`, `/types/pivot.d.ts`.
 - Every page is available under `/markdown/PAGE.md`, for example <a href="./markdown/react.md" download>React source</a>. These downloads are generated from the same source as the rendered site, with no navigation markup.
 
 The published documentation is at [byfungsi.github.io/nori](https://byfungsi.github.io/nori/). Resolve artifact paths below the site base (`/nori/` on GitHub Pages, `/` for local preview); generated indexes and manifests include that base. Local preview runs at `http://127.0.0.1:4179`.
@@ -47,3 +47,5 @@ The published documentation is at [byfungsi.github.io/nori](https://byfungsi.git
 - State limitations explicitly; current support and roadmap are separate documents.
 
 The complete quick-start and React examples are checked against source types on every repository typecheck. Quick-start calculations and persistence are executed in tests. Production builds validate site links, and the docs verifier checks plain-text exports and declaration availability.
+
+For CSV, read [CSV import](/csv). Use `parseCsv` from `/csv` or the root, check its Result, then construct the runtime from `.value.snapshot`. Text mode is the default. Do not auto-evaluate CSV strings beginning with `=`; the adapter deliberately keeps them literal.

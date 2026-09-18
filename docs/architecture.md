@@ -15,6 +15,8 @@ graph TD
   core --> model
   formula --> model
   pivot --> model
+  csv["CSV adapter"] --> model
+  facade --> csv
   xlsx --> model
 ```
 
@@ -67,3 +69,5 @@ Optional version-1 snapshot fields carry dimension defaults/overrides, merged re
 The renderer sets real column widths and row heights, clips cell content, and applies wrap metadata. Sticky frozen cells use sums of visible dimensions. Merges are projected into the rendered window, so a merge whose anchor is outside that window still displays its anchor value. Merges crossing a freeze boundary move as one unit on that axis, rather than being split into multiple independent cells.
 
 `getVisibleRows`, `getVisibleColumns`, `isRowVisible`, and `isColumnVisible` are headless view operations. They retain original sheet coordinates while excluding hidden/filtered entries. Saved sort metadata describes the order already physically stored in an XLSX: import does not re-sort values or rewrite formulas. The editor shows sort/filter indicators. A read-only `SpreadsheetPreview` subscribes to this same runtime but keeps its tab state local; it never calls runtime mutation/selection methods.
+
+The CSV adapter depends only on the model. It accepts decoded text, preserves quoted fields, and returns a one-sheet snapshot. Value inference is explicit and never creates formulas. File decoding remains in the host adapter.

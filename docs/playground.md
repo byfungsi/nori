@@ -8,7 +8,7 @@ Edit a real workbook below—no installation or account needed. This example use
 2. Switch to **Summary** to see the cross-sheet total, then choose **Undo** to restore the original values.
 3. Drag across cells, Shift-click to extend selection, or drag a row/column boundary to resize it.
 4. Turn on **Read only** to try a navigable sheet without editing.
-5. Download a sample, then open it with **Open .xlsx**. The layout sample includes merged cells, frozen panes, hidden columns and saved filters.
+5. Download an XLSX or CSV sample, then open it with **Open .xlsx or .csv**. The XLSX layout sample includes merged cells, frozen panes, hidden columns and saved filters.
 
 <LivePlayground />
 

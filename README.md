@@ -128,3 +128,5 @@ The VitePress app in `docs/` provides guides, API references, local search and a
 Source: [byfungsi/nori](https://github.com/byfungsi/nori) · Documentation: [GitHub Pages](https://byfungsi.github.io/nori/) · [Agent index](https://byfungsi.github.io/nori/llms.txt)
 
 [Try the live spreadsheet playground](https://byfungsi.github.io/nori/playground.html) — edit cells, recalculate formulas, switch sheets, and open a local XLSX file without installing anything.
+
+CSV import: `import { parseCsv } from "@byfungsi/nori/csv"`. Quoted and multiline fields are supported; text is preserved by default, with optional number/boolean inference. [CSV guide](https://byfungsi.github.io/nori/csv.html). The live playground accepts CSV and XLSX files.

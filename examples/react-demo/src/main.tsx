@@ -1,6 +1,11 @@
 import { useState, type ReactNode } from "react";
 import { createRoot } from "react-dom/client";
-import { createWorkbook, parseXlsx, type Workbook } from "@byfungsi/nori";
+import {
+  createWorkbook,
+  parseXlsx,
+  parseCsv,
+  type Workbook,
+} from "@byfungsi/nori";
 import {
   WorkbookProvider,
   WorkbookTabs,
@@ -119,6 +124,15 @@ function PivotPreview(): ReactNode {
     </aside>
   ) : null;
 }
+async function importFile(file: File) {
+  if (file.name.toLowerCase().endsWith(".csv")) {
+    const parsed = parseCsv(await file.text(), { valueMode: "infer" });
+    return parsed.ok
+      ? { ...parsed, value: { ...parsed.value, warnings: [] } }
+      : parsed;
+  }
+  return parseXlsx(new Uint8Array(await file.arrayBuffer()));
+}
 function App({ initialWorkbook }: { initialWorkbook: Workbook }): ReactNode {
   const [workbook, setWorkbook] = useState(initialWorkbook),
     [filename, setFilename] = useState("sales-workbook.xlsx"),
@@ -142,19 +156,17 @@ function App({ initialWorkbook }: { initialWorkbook: Workbook }): ReactNode {
         </h1>
         <p>Open a workbook. Explore your sheets. Make the numbers yours.</p>
         <label className="upload">
-          {busy ? "Opening…" : "Open .xlsx"}
+          {busy ? "Opening…" : "Open .xlsx or .csv"}
           <input
             type="file"
-            accept=".xlsx"
+            accept=".xlsx,.csv,text/csv"
             disabled={busy}
             onChange={async (event) => {
               const file = event.target.files?.[0];
               if (!file) return;
               setBusy(true);
               try {
-                const imported = parseXlsx(
-                  new Uint8Array(await file.arrayBuffer()),
-                );
+                const imported = await importFile(file);
                 if (!imported.ok) {
                   setMessage(imported.error.message);
                   return;
@@ -166,9 +178,10 @@ function App({ initialWorkbook }: { initialWorkbook: Workbook }): ReactNode {
                 }
                 setWorkbook(runtime.value);
                 setFilename(file.name);
+                const warnings = imported.value.warnings;
                 setMessage(
-                  imported.value.warnings.length
-                    ? `Opened ${file.name}. Import notes: ${[...new Set(imported.value.warnings.map((w) => w.feature))].join(", ")}.`
+                  warnings.length
+                    ? `Opened ${file.name}. Import notes: ${[...new Set(warnings.map((w) => w.feature))].join(", ")}.`
                     : `Opened ${file.name}.`,
                 );
               } catch {
@@ -185,6 +198,9 @@ function App({ initialWorkbook }: { initialWorkbook: Workbook }): ReactNode {
         </a>
         <a className="sample" href="./layout.xlsx" download>
           Download layout sample
+        </a>
+        <a className="sample" href="./sample.csv" download>
+          Download CSV sample
         </a>
       </header>
       <button
