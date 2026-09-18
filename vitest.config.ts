@@ -3,8 +3,8 @@ import { resolve } from "node:path";
 const names = ["model", "formula", "pivot", "core", "xlsx", "react"];
 export default defineConfig({
   resolve: {
-    alias: Object.fromEntries(
-      names.map((name) => [
+    alias: Object.fromEntries([
+      ...names.map((name) => [
         "@nori-internal/" + name,
         resolve(
           "packages/" +
@@ -13,7 +13,12 @@ export default defineConfig({
             (name === "react" ? "tsx" : "ts"),
         ),
       ]),
-    ),
+      ...names.map((name) => [
+        "@byfungsi/nori/" + name,
+        resolve("packages/nori/src/" + name + ".ts"),
+      ]),
+      ["@byfungsi/nori", resolve("packages/nori/src/index.ts")],
+    ]),
   },
   test: { include: ["tests/**/*.test.{ts,tsx}"] },
 });
