@@ -16,4 +16,6 @@ The production build emits two harmless annotation-placement warnings from Zod d
 
 No React Native device test, real Excel/LibreOffice corpus, adversarial archive isolation test, or large-workbook performance benchmark is claimed. See the support matrix and roadmap for limitations.
 
-Documentation verification: VitePress production build, 15 rendered pages, local search, desktop/mobile navigation, no console errors, agent text exports with SHA-256 consistency checks, copied declaration dependency closure, and executable/typechecked examples. The docs target modern ES2022-capable browsers. VitePress 1 uses an explicit Vite 6.4.3 override to avoid older development-server advisories; the resolved dependency audit reports zero vulnerabilities.
+Documentation verification: VitePress production build, 16 rendered pages, local search, desktop/mobile navigation, no console errors, agent text exports with SHA-256 consistency checks, copied declaration dependency closure, and executable/typechecked examples. The docs target modern ES2022-capable browsers. VitePress 1 uses an explicit Vite 6.4.3 override to avoid older development-server advisories; the resolved dependency audit reports zero vulnerabilities.
+
+The live-playground browser check covers embedded selection, editing and recalculation, cross-sheet totals, undo, read-only mode, reset, importing the hosted XLSX sample, and narrow mobile layout. Run `npm run docs:verify-playground`, setting `NORI_DOCS_URL` to a served documentation base URL.

@@ -17,10 +17,12 @@
     "format:check": "prettier --check \"{packages,examples,tests,scripts,docs}/**/*.{ts,tsx,mjs,css,md,json}\" \"*.{json,ts,md}\"",
     "verify:browser": "node scripts/verify-browser.mjs",
     "docs:generate": "node scripts/generate-docs.mjs",
-    "docs:dev": "npm run build -w @byfungsi/nori && npm run docs:generate && vitepress docs --host 127.0.0.1 --port 4179",
-    "docs:build": "npm run build -w @byfungsi/nori && npm run docs:generate && vitepress build docs && node scripts/check-docs.mjs",
+    "docs:dev": "npm run build -w @byfungsi/nori && npm run docs:playground && npm run docs:generate && vitepress docs --host 127.0.0.1 --port 4179",
+    "docs:build": "npm run build -w @byfungsi/nori && npm run docs:playground && npm run docs:generate && vitepress build docs && node scripts/check-docs.mjs",
     "docs:preview": "vitepress preview docs --host 127.0.0.1 --port 4179",
-    "docs:verify-browser": "node scripts/verify-docs-browser.mjs"
+    "docs:verify-browser": "node scripts/verify-docs-browser.mjs",
+    "docs:playground": "node scripts/build-docs-playground.mjs",
+    "docs:verify-playground": "node scripts/verify-playground.mjs"
   },
   "devDependencies": {
     "@testing-library/react": "^16.3.0",

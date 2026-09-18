@@ -332,3 +332,21 @@ footer {
     min-width: 0;
   }
 }
+
+.reset-example {
+  margin: 0 0 14px;
+}
+main.embedded {
+  padding: 20px;
+}
+.embedded header {
+  margin-bottom: 20px;
+}
+.embedded header .eyebrow,
+.embedded header h1,
+.embedded header > p {
+  display: none;
+}
+.embedded .workspace {
+  grid-template-columns: minmax(0, 1fr);
+}

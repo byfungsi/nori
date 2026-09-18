@@ -126,3 +126,5 @@ For a navigable view without editing, use `<Spreadsheet workbook={workbook} read
 The VitePress app in `docs/` provides guides, API references, local search and agent-oriented exports. Run `npm run docs:dev` or build with `npm run docs:build` and serve with `npm run docs:preview` (port 4179). The build generates `llms.txt`, `llms-full.txt`, per-page Markdown, public declarations and a versioned content manifest. See [the agent guide](docs/agents.md) and [contributing instructions](docs/contributing.md).
 
 Source: [byfungsi/nori](https://github.com/byfungsi/nori) · Documentation: [GitHub Pages](https://byfungsi.github.io/nori/) · [Agent index](https://byfungsi.github.io/nori/llms.txt)
+
+[Try the live spreadsheet playground](https://byfungsi.github.io/nori/playground.html) — edit cells, recalculate formulas, switch sheets, and open a local XLSX file without installing anything.

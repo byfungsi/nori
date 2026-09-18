@@ -46,7 +46,11 @@ const pages = readdirSync(root)
             ? page + ".html"
             : page;
         return `](${sitePath(route)}${anchor === undefined ? "" : "#" + anchor})`;
-      });
+      })
+      .replace(
+        /<LivePlayground\s*\/>/g,
+        `[Open the live playground](${sitePath("demo/")})`,
+      );
     writeFileSync(resolve(output, "markdown", name), expanded);
     return {
       title,

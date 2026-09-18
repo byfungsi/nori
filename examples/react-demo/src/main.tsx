@@ -61,6 +61,7 @@ const initial = createWorkbook({
   ],
 });
 if (!initial.ok) throw initial.error;
+const startingSnapshot = initial.value.exportSnapshot();
 function Toolbar(): ReactNode {
   const readOnly = useWorkbookReadOnly();
   const workbook = useWorkbook(),
@@ -125,7 +126,13 @@ function App({ initialWorkbook }: { initialWorkbook: Workbook }): ReactNode {
     [busy, setBusy] = useState(false),
     [readOnly, setReadOnly] = useState(false);
   return (
-    <main>
+    <main
+      className={
+        new URLSearchParams(location.search).has("embed")
+          ? "embedded"
+          : undefined
+      }
+    >
       <header>
         <div className="eyebrow">BY FUNGSI / NORI</div>
         <h1>
@@ -173,13 +180,30 @@ function App({ initialWorkbook }: { initialWorkbook: Workbook }): ReactNode {
             }}
           />
         </label>
-        <a className="sample" href="/sample.xlsx" download>
+        <a className="sample" href="./sample.xlsx" download>
           Download sample workbook
         </a>
-        <a className="sample" href="/layout.xlsx" download>
+        <a className="sample" href="./layout.xlsx" download>
           Download layout sample
         </a>
       </header>
+      <button
+        type="button"
+        className="reset-example"
+        onClick={() => {
+          const reset = createWorkbook(startingSnapshot);
+          if (!reset.ok) {
+            setMessage(reset.error.message);
+            return;
+          }
+          setWorkbook(reset.value);
+          setFilename("sales-workbook.xlsx");
+          setMessage("");
+          setReadOnly(false);
+        }}
+      >
+        Reset example
+      </button>
       {message && <p role="status">{message}</p>}
       <label style={{ display: "block", marginBottom: 12 }}>
         <input

@@ -38,3 +38,5 @@ The base path is applied to site assets, navigation, the agent manifest and plai
 The `pages.yml` workflow verifies the library, builds the docs, uploads the static artifact, and deploys to GitHub Pages on pushes to `main` or manual dispatch. Pull requests run verification without deployment. Pages uses the GitHub Actions source, `pages: write` and `id-token: write` deployment permissions, and the `github-pages` environment. No custom deployment credential is needed.
 
 The published site is [byfungsi.github.io/nori](https://byfungsi.github.io/nori/). All generated text/Markdown/type artifacts are served under the same `/nori/` prefix. The npm package is not automatically published by this workflow.
+
+The docs build also builds `examples/react-demo` with relative asset paths and embeds it on the playground page. The static app and synthetic XLSX samples are copied into the Pages artifact. Rebuild/restart `docs:dev` after changing playground code; documentation Markdown itself supports hot reload.

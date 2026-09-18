@@ -35,6 +35,7 @@ export default defineConfig({
     socialLinks: [{ icon: "github", link: "https://github.com/byfungsi/nori" }],
     search: { provider: "local" },
     nav: [
+      { text: "Playground", link: "/playground" },
       { text: "Guide", link: "/getting-started" },
       { text: "API", link: "/api" },
       { text: "For agents", link: "/agents" },
@@ -44,6 +45,7 @@ export default defineConfig({
         text: "Start here",
         items: [
           { text: "Introduction", link: "/" },
+          { text: "Live playground", link: "/playground" },
           { text: "Quick start", link: "/getting-started" },
           { text: "React integration", link: "/react" },
           { text: "XLSX import", link: "/importing" },

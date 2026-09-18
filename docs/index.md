@@ -9,6 +9,9 @@ hero:
       text: Start building
       link: /getting-started
     - theme: alt
+      text: Try it live
+      link: /playground
+    - theme: alt
       text: Build with an AI agent
       link: /agents
 features:

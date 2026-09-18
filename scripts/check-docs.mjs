@@ -57,3 +57,8 @@ assert.ok(read("index.html").includes(`${manifest.base}assets/`));
 console.log(
   `Documentation passed: ${manifest.pages.length} HTML/Markdown pages, content hashes, complete text and declaration dependency closure.`,
 );
+
+assert.ok(read("demo/index.html").includes("./assets/"));
+assert.ok(read("playground.html").includes(`${manifest.base}demo/?embed=1`));
+for (const fixture of ["sample.xlsx", "layout.xlsx"])
+  assert.ok(existsSync(resolve(root, "demo", fixture)));
