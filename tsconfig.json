@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@nori-internal/model": ["packages/model/src/index.ts"],
+      "@nori-internal/formula": ["packages/formula/src/index.ts"],
+      "@nori-internal/pivot": ["packages/pivot/src/index.ts"],
+      "@nori-internal/core": ["packages/core/src/index.ts"],
+      "@nori-internal/xlsx": ["packages/xlsx/src/index.ts"],
+      "@nori-internal/react": ["packages/react/src/index.tsx"],
+      "@byfungsi/nori": ["packages/nori/src/index.ts"],
+      "@byfungsi/nori/*": ["packages/nori/src/*"]
+    },
+    "types": ["node", "vitest/globals"]
+  },
+  "include": ["packages", "examples", "tests", "*.ts", "docs/examples"]
+}

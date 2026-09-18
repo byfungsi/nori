@@ -1,0 +1,20 @@
+:root {
+  --vp-c-brand-1: #356746;
+  --vp-c-brand-2: #477c54;
+  --vp-c-brand-3: #315d40;
+  --vp-c-brand-soft: #e8f0e3;
+  --vp-home-hero-name-color: #244b39;
+}
+.dark {
+  --vp-c-brand-1: #9aca89;
+  --vp-c-brand-2: #b6d6a5;
+  --vp-c-brand-3: #48764c;
+  --vp-c-brand-soft: #23372b;
+  --vp-home-hero-name-color: #b6d6a5;
+}
+.VPHome {
+  padding-bottom: 64px !important;
+}
+.vp-doc table {
+  font-size: 14px;
+}

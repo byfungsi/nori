@@ -1,0 +1,68 @@
+{
+  "name": "@byfungsi/nori",
+  "version": "0.1.0",
+  "description": "Platform-independent spreadsheet runtime with XLSX and composable React adapters",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./model": {
+      "types": "./dist/model.d.ts",
+      "import": "./dist/model.js"
+    },
+    "./xlsx": {
+      "types": "./dist/xlsx.d.ts",
+      "import": "./dist/xlsx.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js"
+    },
+    "./formula": {
+      "types": "./dist/formula.d.ts",
+      "import": "./dist/formula.js"
+    },
+    "./pivot": {
+      "types": "./dist/pivot.d.ts",
+      "import": "./dist/pivot.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "import": "./dist/react.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup --config ../../tsup.config.ts"
+  },
+  "dependencies": {
+    "zod": "^4.3.6",
+    "fflate": "^0.8.2",
+    "fast-xml-parser": "^5.3.8"
+  },
+  "peerDependencies": {
+    "react": "^18.3.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/byfungsi/nori.git",
+    "directory": "packages/nori"
+  },
+  "homepage": "https://byfungsi.github.io/nori/",
+  "bugs": {
+    "url": "https://github.com/byfungsi/nori/issues"
+  }
+}

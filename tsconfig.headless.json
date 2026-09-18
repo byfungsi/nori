@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "types": [],
+    "noEmit": true
+  },
+  "include": [
+    "packages/model/src/**/*.ts",
+    "packages/formula/src/**/*.ts",
+    "packages/pivot/src/**/*.ts",
+    "packages/core/src/**/*.ts",
+    "packages/xlsx/src/**/*.ts"
+  ],
+  "exclude": ["**/*.test.*"]
+}
