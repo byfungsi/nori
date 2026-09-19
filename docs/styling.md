@@ -248,3 +248,5 @@ Utility classes can style the root through `className`. For the many descendant 
 Before shipping your stylesheet, check keyboard focus, selected ranges, active tabs, disabled/read-only controls, formula input, inline editing, error text, hover/drag resize borders, frozen rows/columns, merged cells, long text, and imported explicit colors. Check narrow screens and horizontal scrolling as well as a desktop viewport. Maintain readable contrast; do not use color alone to communicate errors or selection.
 
 There is currently no unified theme object, full-editor light/dark preset, theme persistence, exported CSS bundle, or automatic contrast correction for imported formatting. The [React integration guide](/react), [interaction guide](/interactions), and [Excel support matrix](/support) describe the surrounding capabilities.
+
+Currency display is supported since 0.2.0 through `Cell.style.numberFormat`. See [Currency formatting](/currency) for syntax, imports, and locale limits.

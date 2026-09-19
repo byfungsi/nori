@@ -8,7 +8,7 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@byfungsi/nori": "0.1.0",
+    "@byfungsi/nori": "0.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }

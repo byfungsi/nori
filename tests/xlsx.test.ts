@@ -1,3 +1,4 @@
+import { formatNumber } from "@byfungsi/nori/model";
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { createWorkbook } from "@nori-internal/core";
@@ -186,5 +187,43 @@ it("warns on unsupported filters while retaining the workbook saved hidden rows"
   expect(imported.snapshot.sheets[0]?.hiddenRows).toEqual([2]);
   expect(imported.warnings.some((w) => w.feature.includes("dynamic"))).toBe(
     true,
+  );
+});
+
+it.each([5, 6, 7, 8])(
+  "imports built-in currency format %s into numeric cells",
+  (id) => {
+    const { snapshot } = unwrap(
+      parseXlsx(
+        replace("xl/styles.xml", (s) =>
+          s.replace('numFmtId="2"', `numFmtId="${id}"`),
+        ),
+      ),
+    );
+    const cell = snapshot.sheets[0]?.cells["B6"];
+    expect(cell?.value).toBe(2650);
+    expect(cell?.style?.numberFormat).toContain('"$"#,##0');
+    expect(formatNumber(2650, cell!.style!.numberFormat!)).toBe(
+      id < 7 ? "$2,650" : "$2,650.00",
+    );
+    const workbook = unwrap(createWorkbook(snapshot));
+    expect(workbook.getCellValue(snapshot.sheets[0]!.id, "B6")).toBe(2650);
+  },
+);
+it("preserves a custom IDR currency format from XLSX", () => {
+  const { snapshot } = unwrap(
+    parseXlsx(
+      replace("xl/styles.xml", (s) =>
+        s
+          .replace(
+            "<fonts ",
+            '<numFmts count="1"><numFmt numFmtId="164" formatCode="&quot;Rp &quot;#,##0.00"/></numFmts><fonts ',
+          )
+          .replace('numFmtId="2"', 'numFmtId="164"'),
+      ),
+    ),
+  );
+  expect(snapshot.sheets[0]?.cells["B6"]?.style?.numberFormat).toBe(
+    '"Rp "#,##0.00',
   );
 });

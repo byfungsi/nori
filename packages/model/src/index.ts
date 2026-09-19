@@ -1,3 +1,4 @@
+export { formatNumber } from "./number-format";
 import { normalizeRange, rangesIntersect, rangeContains } from "./cell-ranges";
 export {
   normalizeRange,

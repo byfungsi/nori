@@ -6,6 +6,8 @@
 
 `parseAddress('$b$12')` returns zero-based `{ row: 11, column: 1 }`; `addressOf(position)` encodes already-valid coordinates. Addresses are bounded to XFD1048576. For arbitrary numeric inputs, validate coordinates through the model boundary before calling `addressOf`. `parseSheetId` refines external IDs; most callers obtain IDs directly from parsed snapshots.
 
+`formatNumber(value, numberFormat)` from `@byfungsi/nori/model` formats the supported numeric/currency subset without React. It returns `undefined` for unsupported formats; see [Currency formatting](/currency).
+
 ## Import
 
 ```ts

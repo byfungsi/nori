@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { isCellError, type Cell } from "@nori-internal/model";
+import { formatNumber, isCellError, type Cell } from "@nori-internal/model";
 import { isArrayResult, type FormulaResult } from "@nori-internal/formula";
 /** Workbook format styling, intentionally separate from the surrounding application theme. */
 export function cellStyleToCss(cell: Cell | undefined): CSSProperties {
@@ -20,17 +20,8 @@ export function formatCellValue(value: FormulaResult, cell?: Cell): string {
   if (isCellError(value)) return value.code;
   if (value === null) return "";
   if (typeof value === "boolean") return value ? "TRUE" : "FALSE";
-  if (typeof value === "number") {
-    switch (cell?.style?.numberFormat) {
-      case "0":
-        return value.toFixed(0);
-      case "0.00":
-        return value.toFixed(2);
-      case "0%":
-        return (value * 100).toFixed(0) + "%";
-      case "0.00%":
-        return (value * 100).toFixed(2) + "%";
-    }
+  if (typeof value === "number" && cell?.style?.numberFormat) {
+    return formatNumber(value, cell.style.numberFormat) ?? String(value);
   }
   return String(value);
 }

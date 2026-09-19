@@ -58,3 +58,5 @@ Nori supplies essential geometry inline and semantic CSS classes for application
 Workbook styles (fill, text color, alignment and number-format metadata) belong to cells. Application chrome belongs to CSS. Customize selection through `--nori-selection-fill`, `--nori-selection-border`; resize through `--nori-resize-border`; frozen surfaces through `--nori-header-background`, `--nori-cell-background`; and inline editors through `--nori-editor-background`, `--nori-editor-color`.
 
 `renderCell(context)` receives `sheet`, `address`, `cell`, calculated `value`, `selected`, and `mergedRange`. Render noninteractive content: it is placed inside the grid's cell button, so nested buttons/inputs are invalid. Merged cells receive their anchor's value. See [interactions](/interactions) for editing and keyboard behavior.
+
+Currency display is supported since 0.2.0 through `Cell.style.numberFormat`. See [Currency formatting](/currency) for syntax, imports, and locale limits.

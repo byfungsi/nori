@@ -17,3 +17,5 @@ The XLSX adapter preserves merged cells, dimensions, hidden rows/columns, worksh
 CSV is supported through `parseCsv` at the root and `/csv`. It accepts decoded text and returns a single-sheet snapshot, with optional delimiter and value-inference settings. Formula-like values remain text.
 
 See the [documentation](https://byfungsi.github.io/nori/) for installation, examples, and compatibility details. Maintainers can follow the [release guide](https://byfungsi.github.io/nori/publishing.html).
+
+Since 0.2.0, common currency number formats display in both React views. Set `Cell.style.numberFormat`, for example `$#,##0.00` or `"Rp "#,##0`. Values remain numeric. See the [currency guide](https://byfungsi.github.io/nori/currency.html) for the supported subset and locale limitations.

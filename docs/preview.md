@@ -34,3 +34,5 @@ The card fits its parent's width, including narrow chat bubbles. The table and t
 Workbook colors/styles are preserved separately from the card theme. Imported explicit colors may need host-specific adaptation for strong contrast in a dark chat design. Full font fidelity, annotations such as hand-drawn circles, and automatic row fitting are not part of this component.
 
 See [Styling and theming](/styling#styling-the-chat-preview) for palette behavior, CSS precedence, sizing, and the distinction between preview and editor themes.
+
+Currency display is supported since 0.2.0 through `Cell.style.numberFormat`. See [Currency formatting](/currency) for syntax, imports, and locale limits.

@@ -49,6 +49,7 @@ export default defineConfig({
           { text: "Quick start", link: "/getting-started" },
           { text: "React integration", link: "/react" },
           { text: "Styling & theming", link: "/styling" },
+          { text: "Currency formatting", link: "/currency" },
           { text: "XLSX import", link: "/importing" },
           { text: "CSV import", link: "/csv" },
         ],
@@ -84,7 +85,7 @@ export default defineConfig({
     outline: [2, 3],
     footer: {
       message:
-        "Nori 0.1.0 · Initial milestone · Explicit compatibility boundaries.",
+        "Nori 0.2.0 · Initial milestone · Explicit compatibility boundaries.",
     },
   },
 });
