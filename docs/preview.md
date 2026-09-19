@@ -32,3 +32,5 @@ Preview sheet changes do not alter the full editor's active sheet, selection or 
 The card fits its parent's width, including narrow chat bubbles. The table and tab strip scroll horizontally inside the card; they never force the page wider. Headers can wrap the file/open controls. Cells use compact fixed row heights and bounded column widths, intentionally independent of the full editor's large document geometry. Long values are clipped with full text in their title attribute. The footer states the displayed row/column counts.
 
 Workbook colors/styles are preserved separately from the card theme. Imported explicit colors may need host-specific adaptation for strong contrast in a dark chat design. Full font fidelity, annotations such as hand-drawn circles, and automatic row fitting are not part of this component.
+
+See [Styling and theming](/styling#styling-the-chat-preview) for palette behavior, CSS precedence, sizing, and the distinction between preview and editor themes.

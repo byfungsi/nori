@@ -51,6 +51,8 @@ The [chat preview](/preview) always stays read-only and keeps tab state local. U
 
 ## Styling and custom cells
 
+See the [complete styling and theming guide](/styling) for a copyable light/dark stylesheet, every CSS variable and class hook, preview customization, and troubleshooting.
+
 Nori supplies essential geometry inline and semantic CSS classes for application styling. It does not export a stylesheet or impose a design-system dependency. Style `.nori-workbook`, `.nori-grid`, `.nori-tabs`, `.nori-formula-bar`, and `.nori-selection-toolbar` in your application. The repository's demo CSS is an example, not a public package export.
 
 Workbook styles (fill, text color, alignment and number-format metadata) belong to cells. Application chrome belongs to CSS. Customize selection through `--nori-selection-fill`, `--nori-selection-border`; resize through `--nori-resize-border`; frozen surfaces through `--nori-header-background`, `--nori-cell-background`; and inline editors through `--nori-editor-background`, `--nori-editor-color`.

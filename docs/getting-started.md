@@ -14,6 +14,8 @@ npm install react@^19 react-dom@^19
 
 Headless use does not require React. The package is ESM; use an ESM application or a compatible bundler. Repository development requires Node 22.12 or later. Native bindings are future work.
 
+For editor appearance, see [Styling and theming](/styling). Nori does not ship an editor stylesheet; the guide provides a complete application CSS starter.
+
 ## Calculate and persist a workbook
 
 This is a complete, typechecked example. Expected failures are Result values; this short program chooses to throw after checking them. An application should display or return these errors at its boundary.

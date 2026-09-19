@@ -1,0 +1,132 @@
+/* Application-owned theme: this file is not an npm package export. */
+.my-sheet {
+  --app-surface: #ffffff;
+  --app-chrome: #f3f6f2;
+  --app-text: #24372c;
+  --app-muted: #526457;
+  --app-border: #cbd7ce;
+  --app-active: #dceedd;
+  --app-focus: #286b48;
+  --nori-header-background: var(--app-chrome);
+  --nori-cell-background: var(--app-surface);
+  --nori-editor-background: var(--app-surface);
+  --nori-editor-color: var(--app-text);
+  --nori-selection-fill: rgb(40 107 72 / 14%);
+  --nori-selection-border: var(--app-focus);
+  --nori-resize-border: var(--app-focus);
+  color-scheme: light;
+  color: var(--app-text);
+  background: var(--app-surface);
+  font:
+    14px/1.4 system-ui,
+    sans-serif;
+  min-width: 0;
+  width: 100%;
+  border: 1px solid var(--app-border);
+  border-radius: 12px;
+}
+.my-sheet--dark {
+  --app-surface: #18211c;
+  --app-chrome: #243229;
+  --app-text: #edf5ef;
+  --app-muted: #bdcec1;
+  --app-border: #4a6151;
+  --app-active: #365b43;
+  --app-focus: #8fe0ab;
+  --nori-selection-fill: rgb(143 224 171 / 16%);
+  color-scheme: dark;
+}
+.my-sheet .nori-formula-bar,
+.my-sheet .nori-selection-toolbar,
+.my-sheet .nori-view-status,
+.my-sheet .nori-tabs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--app-chrome);
+  border-bottom: 1px solid var(--app-border);
+}
+.my-sheet .nori-formula-bar,
+.my-sheet .nori-selection-toolbar,
+.my-sheet .nori-view-status {
+  flex-wrap: wrap;
+}
+.my-sheet .nori-formula-bar input {
+  flex: 1 1 140px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--app-border);
+  border-radius: 6px;
+  background: var(--app-surface);
+  color: var(--app-text);
+  font: inherit;
+}
+.my-sheet .nori-formula-bar button,
+.my-sheet .nori-selection-toolbar button,
+.my-sheet .nori-tabs button {
+  font: inherit;
+  color: var(--app-text);
+  background: var(--app-surface);
+  border: 1px solid var(--app-border);
+  border-radius: 6px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.my-sheet button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.my-sheet button:focus-visible,
+.my-sheet input:focus-visible {
+  outline: 2px solid var(--app-focus);
+  outline-offset: -2px;
+}
+.my-sheet .nori-view-status,
+.my-sheet .nori-selection-toolbar output {
+  color: var(--app-muted);
+}
+.my-sheet [role="alert"] {
+  flex-basis: 100%;
+  font-weight: 600;
+}
+.my-sheet .nori-grid {
+  font: inherit;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.my-sheet .nori-grid th,
+.my-sheet .nori-grid td {
+  border-right: 1px solid var(--app-border);
+  border-bottom: 1px solid var(--app-border);
+}
+.my-sheet .nori-grid th {
+  color: var(--app-muted);
+  font-weight: 500;
+}
+.my-sheet .nori-grid td {
+  background-color: var(--app-surface);
+}
+.my-sheet .nori-tabs {
+  overflow-x: auto;
+  border-top: 1px solid var(--app-border);
+  border-bottom: 0;
+}
+.my-sheet .nori-tabs button {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.my-sheet .nori-tabs button[aria-pressed="true"] {
+  background: var(--app-active);
+  font-weight: 700;
+}
+.my-sheet .nori-resize-handle:focus-visible {
+  outline: 2px solid var(--app-focus);
+}
+@media (max-width: 480px) {
+  .my-sheet .nori-formula-bar,
+  .my-sheet .nori-selection-toolbar,
+  .my-sheet .nori-tabs {
+    padding: 8px;
+  }
+}
