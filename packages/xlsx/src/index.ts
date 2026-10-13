@@ -1,5 +1,8 @@
 import { strFromU8, unzipSync } from "fflate";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
+import { decodeXlsxText } from "./xlsx-text";
+export { writeXlsx, XlsxWriteError } from "./write-xlsx";
+export type { XlsxWriteOptions } from "./write-xlsx";
 import {
   addressOf,
   cellError,
@@ -72,9 +75,9 @@ function textLeaf(value: unknown): string {
 function rich(value: unknown): string {
   const node = object(value);
   return (
-    text(node["t"]) +
+    decodeXlsxText(text(node["t"])) +
     list(node["r"])
-      .map((run) => text(object(run)["t"]))
+      .map((run) => decodeXlsxText(text(object(run)["t"])))
       .join("")
   );
 }
@@ -193,7 +196,7 @@ export function parseXlsx(
     const sheets = list(object(workbook["sheets"])["sheet"]).map(
       (input, index) => {
         const metadata = object(input);
-        const name = text(metadata["@_name"]);
+        const name = decodeXlsxText(text(metadata["@_name"]));
         const relation = workbookRels.find(
           (r) => r["@_Id"] === metadata["@_id"],
         );
@@ -290,8 +293,12 @@ export function parseXlsx(
           merges.push(range.value);
         }
         const cells: Record<string, Cell> = Object.create(null);
-        let rowCount = 1,
-          columnCount = 1;
+        const dimension =
+          sheet["dimension"] === undefined
+            ? undefined
+            : viewRange(object(sheet["dimension"])["@_ref"]);
+        let rowCount = dimension === undefined ? 1 : dimension.end.row + 1,
+          columnCount = dimension === undefined ? 1 : dimension.end.column + 1;
         for (const rowInput of list(object(sheet["sheetData"])["row"])) {
           const row = object(rowInput);
           if (row["@_ht"] !== undefined) {
@@ -345,7 +352,7 @@ export function parseXlsx(
                 value = rich(node["is"]);
                 break;
               case "str":
-                value = raw;
+                value = decodeXlsxText(raw);
                 break;
               case "b":
                 if (raw !== "0" && raw !== "1")
@@ -509,7 +516,10 @@ function readStyles(root: XmlNode): CellStyle[] {
   ]);
   for (const value of list(object(root["numFmts"])["numFmt"])) {
     const f = object(value);
-    formats.set(Number(f["@_numFmtId"]), text(f["@_formatCode"]));
+    formats.set(
+      Number(f["@_numFmtId"]),
+      decodeXlsxText(text(f["@_formatCode"])),
+    );
   }
   const rgb = (node: unknown): string | undefined => {
     const raw = text(object(node)["@_rgb"]);
@@ -646,7 +656,7 @@ function readWorksheetView(
           condition: {
             kind: "values",
             values: list(filters["filter"]).map((v) =>
-              text(object(v)["@_val"]),
+              decodeXlsxText(text(object(v)["@_val"])),
             ),
             includeBlank: ["1", "true"].includes(text(filters["@_blank"])),
           },
@@ -658,7 +668,7 @@ function readWorksheetView(
         for (const entry of list(filters["customFilter"])) {
           const custom = object(entry),
             operator = text(custom["@_operator"]) || "equal",
-            value = text(custom["@_val"]);
+            value = decodeXlsxText(text(custom["@_val"]));
           switch (operator) {
             case "equal":
             case "notEqual":

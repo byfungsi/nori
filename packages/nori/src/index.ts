@@ -5,23 +5,31 @@ export {
   getRowHeight,
   defaultGridLayout,
   CommandError,
+  WorkbookCalculationError,
 } from "@nori-internal/core";
 export type {
   Workbook,
   WorkbookCommand,
   WorkbookState,
   WorkbookOptions,
+  WorkbookCalculationOptions,
   Selection,
   SelectionState,
   SelectionOptions,
   SelectionMoveOptions,
   GridLayout,
 } from "@nori-internal/core";
-export { parseXlsx, XlsxError } from "@nori-internal/xlsx";
+export {
+  parseXlsx,
+  XlsxError,
+  writeXlsx,
+  XlsxWriteError,
+} from "@nori-internal/xlsx";
 export type {
   XlsxImport,
   XlsxParseOptions,
   ImportWarning,
+  XlsxWriteOptions,
 } from "@nori-internal/xlsx";
 export {
   createEmptySnapshot,
