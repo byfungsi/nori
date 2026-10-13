@@ -53,19 +53,30 @@ try {
  assert.equal(runtime.value.moveSelection("right",{extend:true}).ok,true);
  assert.equal(runtime.value.dispatch({type:"resizeColumn",sheetId,column:0,width:220}).ok,true);
  assert.equal(core.getColumnWidth(runtime.value.exportSnapshot().sheets[0],0),220);
- assert.ok(model.parseAddress&&formula.parseFormula&&pivot.createPivot&&core.createWorkbook&&xlsx.parseXlsx);
+ assert.ok(model.parseAddress&&formula.parseFormula&&pivot.createPivot&&core.createWorkbook&&xlsx.parseXlsx&&xlsx.writeXlsx);
+ const manual=core.createWorkbook({version:1,dateSystem:'1900',sheets:[{id:'cached',name:'Cached',rowCount:2,columnCount:2,cells:{A1:{value:2},A2:{value:3},B1:{value:999,formula:'=SUM(A1:A2)'}}}]},{calculation:'manual'});
+ assert.equal(manual.ok,true);
+ const cachedSheet=manual.value.getState().activeSheetId;
+ assert.equal(manual.value.getCellValue(cachedSheet,'B1'),999);
+ const inert=xlsx.writeXlsx(manual.value.exportSnapshot());assert.equal(inert.ok,true);
+ assert.equal(xlsx.parseXlsx(inert.value).value.snapshot.sheets[0].cells.B1.value,999);
+ assert.equal(manual.value.recalculate({maxCellVisits:100}).ok,true);
+ assert.equal(manual.value.getCellValue(cachedSheet,'B1'),5);
+ const output=xlsx.writeXlsx(manual.value.exportSnapshot());assert.equal(output.ok,true);
+ assert.equal(xlsx.parseXlsx(output.value).value.snapshot.sheets[0].cells.B1.value,5);
+ assert.equal(manual.value.recalculate({maxCellVisits:0}).ok,false);
  `,
   );
   execFileSync("node", ["smoke.mjs"], { cwd: temp, stdio: "pipe" });
   writeFileSync(
     join(temp, "consumer.ts"),
     `
- import { createWorkbook,parseXlsx,type WorkbookSnapshot } from '@byfungsi/nori';
+ import { createWorkbook,parseXlsx,writeXlsx,type WorkbookSnapshot,type WorkbookCalculationOptions } from '@byfungsi/nori';
  import { parseAddress,type SheetId } from '@byfungsi/nori/model';
  import { createFunctionRegistry,type FormulaResult } from '@byfungsi/nori/formula';
  import { createPivot } from '@byfungsi/nori/pivot';
  const parsed=parseXlsx(new Uint8Array());
- if(parsed.ok){const snapshot:WorkbookSnapshot=parsed.value.snapshot;const runtime=createWorkbook(snapshot);if(runtime.ok){const id:SheetId=runtime.value.getState().activeSheetId;const value:FormulaResult=runtime.value.getCellValue(id,'A1');void value;}}
+ if(parsed.ok){const snapshot:WorkbookSnapshot=parsed.value.snapshot;const runtime=createWorkbook(snapshot);if(runtime.ok){const id:SheetId=runtime.value.getState().activeSheetId;const value:FormulaResult=runtime.value.getCellValue(id,'A1');const calculation:WorkbookCalculationOptions={maxCellVisits:100};const refreshed=runtime.value.recalculate(calculation);const written=writeXlsx(runtime.value.exportSnapshot());void [value,refreshed,written];}}
  // @ts-expect-error IDs must be parsed or obtained from a validated snapshot.
  const invalidId:SheetId='raw';
  void [parseAddress('A1'),createFunctionRegistry(),createPivot([], {rows:[],values:[]}),invalidId];

@@ -20,15 +20,15 @@ The demo includes two editable sheets, cross-sheet formulas, history controls, d
 
 After a release, consumers install only `@byfungsi/nori`; React consumers also supply React 18.3 or 19. The facade bundles private workspace packages, so they are never required as separately published dependencies.
 
-| Import                   | Responsibility                                                   |
-| ------------------------ | ---------------------------------------------------------------- |
-| `@byfungsi/nori`         | `parseXlsx`, `createWorkbook`, snapshot parsing and common types |
-| `@byfungsi/nori/model`   | Canonical snapshots, cells, scalar errors, address parsing       |
-| `@byfungsi/nori/xlsx`    | XLSX byte adapter and import diagnostics                         |
-| `@byfungsi/nori/core`    | Commands, history, subscriptions, selection, layout              |
-| `@byfungsi/nori/formula` | AST parser, evaluator, registry, dependency graph                |
-| `@byfungsi/nori/pivot`   | Semantic grouping and aggregation                                |
-| `@byfungsi/nori/react`   | Provider, hooks, grid, tabs, formula bar, convenience view       |
+| Import                   | Responsibility                                                         |
+| ------------------------ | ---------------------------------------------------------------------- |
+| `@byfungsi/nori`         | `parseXlsx`, `writeXlsx`, `createWorkbook`, snapshots and common types |
+| `@byfungsi/nori/model`   | Canonical snapshots, cells, scalar errors, address parsing             |
+| `@byfungsi/nori/xlsx`    | XLSX import/export byte adapters and explicit diagnostics              |
+| `@byfungsi/nori/core`    | Commands, history, subscriptions, selection, layout                    |
+| `@byfungsi/nori/formula` | AST parser, evaluator, registry, dependency graph                      |
+| `@byfungsi/nori/pivot`   | Semantic grouping and aggregation                                      |
+| `@byfungsi/nori/react`   | Provider, hooks, grid, tabs, formula bar, convenience view             |
 
 All entrypoints are ESM, include declarations, and declare no import-time side effects. React is an optional peer and appears only in the React entrypoint. Narrow subpaths let bundlers avoid loading XLSX code when only a runtime or model is needed. CommonJS is not supplied in this milestone.
 

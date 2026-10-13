@@ -140,13 +140,48 @@ export interface Workbook {
     direction: "up" | "down" | "left" | "right",
     options?: SelectionMoveOptions,
   ) => Result<void, CommandError>;
+  /** Explicitly refresh scalar formula caches in one atomic, undoable snapshot update. */
+  readonly recalculate: (
+    options?: WorkbookCalculationOptions,
+  ) => Result<void, WorkbookCalculationError>;
   readonly exportSnapshot: () => WorkbookSnapshot;
 }
 /** Runtime resource bounds and pure function extension points. */
 export interface WorkbookOptions {
   readonly functions?: FunctionRegistry;
   readonly historyLimit?: number;
+  /** Manual reads preserve supplied caches; only recalculate evaluates formulas. */
+  readonly calculation?: "automatic" | "manual";
 }
+/** Bound indexing and recursive cell visits during explicit cache refresh, not arbitrary custom function CPU. */
+export interface WorkbookCalculationOptions {
+  readonly maxCellVisits?: number;
+}
+/** Explicit cache refresh failed atomically; formula errors remain ordinary cell values. */
+export class WorkbookCalculationError extends Error {
+  readonly tag = "WorkbookCalculationError";
+  constructor(
+    readonly reason: "invalid-options" | "limit" | "unsupported" | "command",
+    message: string,
+  ) {
+    super(message);
+  }
+}
+interface CalculationBudget {
+  remaining: number;
+  exceeded: boolean;
+}
+const visitCalculationCell = (
+  budget: CalculationBudget | undefined,
+): boolean => {
+  if (budget === undefined) return true;
+  if (budget.remaining <= 0) {
+    budget.exceeded = true;
+    return false;
+  }
+  budget.remaining -= 1;
+  return true;
+};
 const keyOf = (sheetId: SheetId, address: string) =>
   JSON.stringify([sheetId, address]);
 const rangeLimit = 100_000;
@@ -174,6 +209,9 @@ export function createWorkbook(
   const historyLimit = options.historyLimit ?? 100;
   if (!Number.isSafeInteger(historyLimit) || historyLimit < 0)
     return err(new CommandError("historyLimit must be a nonnegative integer"));
+  const calculation = options.calculation ?? "automatic";
+  if (calculation !== "automatic" && calculation !== "manual")
+    return err(new CommandError("calculation must be automatic or manual"));
   let state: WorkbookState = Object.freeze({
     snapshot: parsed.value,
     activeSheetId: first.id,
@@ -195,12 +233,13 @@ export function createWorkbook(
       : state.snapshot.sheets.find(
           (s) => s.name.toLowerCase() === name.toLowerCase(),
         );
-  const rebuild = () => {
+  const rebuild = (budget?: CalculationBudget) => {
     asts = new Map();
     values = new Map();
     graph = new DependencyGraph();
     for (const sheet of state.snapshot.sheets)
       for (const [address, cell] of Object.entries(sheet.cells)) {
+        if (!visitCalculationCell(budget)) return;
         if (!cell.formula) continue;
         const key = keyOf(sheet.id, address);
         const parsedFormula = parseFormula(cell.formula);
@@ -219,8 +258,10 @@ export function createWorkbook(
               ? rangeAddresses(ref.start.position, ref.end.position)
               : [addressOf(ref.position)];
           if (addresses) {
-            for (const address of addresses)
+            for (const address of addresses) {
+              if (!visitCalculationCell(budget)) return;
               dependencies.push(keyOf(target.id, address));
+            }
           }
         }
         graph.set(key, dependencies);
@@ -230,7 +271,9 @@ export function createWorkbook(
     sheetId: SheetId,
     address: string,
     visiting: Set<string>,
+    budget?: CalculationBudget,
   ): FormulaResult => {
+    if (!visitCalculationCell(budget)) return cellError("#NUM!");
     const sheet = state.snapshot.sheets.find((s) => s.id === sheetId);
     if (!sheet) return cellError("#REF!");
     const key = keyOf(sheetId, address);
@@ -244,7 +287,7 @@ export function createWorkbook(
     const reference = (ref: ReferenceAst): FormulaResult => {
       const target = resolveSheet(ref.sheet, sheetId);
       return target
-        ? read(target.id, addressOf(ref.position), visiting)
+        ? read(target.id, addressOf(ref.position), visiting, budget)
         : cellError("#REF!");
     };
     const result = evaluateFormula(
@@ -262,7 +305,7 @@ export function createWorkbook(
           for (let i = 0; i < addresses.length; i += width)
             rows.push(
               addresses.slice(i, i + width).map((a) => {
-                const v = read(target.id, a, visiting);
+                const v = read(target.id, a, visiting, budget);
                 return typeof v === "object" && v !== null && v.kind === "array"
                   ? cellError("#VALUE!")
                   : v;
@@ -364,7 +407,7 @@ export function createWorkbook(
       canUndo: past.length > 0,
       canRedo: future.length > 0,
     });
-    if (recalculate) rebuild();
+    if (recalculate && calculation === "automatic") rebuild();
     notify();
   };
   const dispatch = (command: WorkbookCommand): Result<void, CommandError> => {
@@ -511,7 +554,73 @@ export function createWorkbook(
     commit(checked.value, true);
     return ok(undefined);
   };
-  rebuild();
+  const recalculate = (
+    options: WorkbookCalculationOptions = {},
+  ): Result<void, WorkbookCalculationError> => {
+    const maxCellVisits = options.maxCellVisits ?? 100_000;
+    if (!Number.isSafeInteger(maxCellVisits) || maxCellVisits <= 0)
+      return err(
+        new WorkbookCalculationError(
+          "invalid-options",
+          "maxCellVisits must be a positive safe integer",
+        ),
+      );
+    const prior = { asts, values, graph };
+    const budget: CalculationBudget = {
+      remaining: maxCellVisits,
+      exceeded: false,
+    };
+    const reject = (
+      reason: WorkbookCalculationError["reason"],
+      message: string,
+    ) => {
+      asts = prior.asts;
+      values = prior.values;
+      graph = prior.graph;
+      return err(new WorkbookCalculationError(reason, message));
+    };
+    rebuild(budget);
+    if (budget.exceeded)
+      return reject("limit", "Calculation cell-visit budget exceeded");
+    const commands: Exclude<WorkbookCommand, { type: "batch" }>[] = [];
+    for (const sheet of state.snapshot.sheets) {
+      for (const [address, cell] of Object.entries(sheet.cells)) {
+        if (cell.formula === undefined) continue;
+        const value = read(sheet.id, address, new Set(), budget);
+        if (budget.exceeded)
+          return reject("limit", "Calculation cell-visit budget exceeded");
+        if (
+          typeof value === "object" &&
+          value !== null &&
+          value.kind === "array"
+        )
+          return reject(
+            "unsupported",
+            "Array formula results cannot be stored as scalar caches",
+          );
+        commands.push({
+          type: "setCell",
+          sheetId: sheet.id,
+          address,
+          cell: { ...cell, value },
+        });
+      }
+    }
+    const result = dispatch({ type: "batch", commands });
+    if (!result.ok) return reject("command", result.error.message);
+    return result;
+  };
+  const getCellValue = (sheetId: SheetId, address: string): FormulaResult => {
+    const position = parseAddress(address);
+    if (!position.ok) return cellError("#REF!");
+    const canonical = addressOf(position.value);
+    if (calculation === "automatic") return read(sheetId, canonical, new Set());
+    const sheet = state.snapshot.sheets.find((item) => item.id === sheetId);
+    return sheet === undefined
+      ? cellError("#REF!")
+      : (sheet.cells[canonical]?.value ?? null);
+  };
+  if (calculation === "automatic") rebuild();
   return ok({
     getState: () => state,
     subscribe: (listener) => {
@@ -535,12 +644,8 @@ export function createWorkbook(
       commit(snapshot, true);
       return true;
     },
-    getCellValue: (sheetId, address) => {
-      const p = parseAddress(address);
-      return p.ok
-        ? read(sheetId, addressOf(p.value), new Set())
-        : cellError("#REF!");
-    },
+    getCellValue,
+    recalculate,
     setActiveSheet: (sheetId) => {
       if (!state.snapshot.sheets.some((s) => s.id === sheetId))
         return err(new CommandError("Unknown sheet"));
@@ -572,7 +677,7 @@ export function createWorkbook(
         return err(new CommandError("Movement bounds outside sheet"));
       const area = checked.value;
       const readValue = (address: string) => {
-        const result = read(sheet.id, address, new Set());
+        const result = getCellValue(sheet.id, address);
         return typeof result === "object" &&
           result !== null &&
           result.kind === "array"

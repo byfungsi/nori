@@ -34,4 +34,6 @@ The parser never exposes XML nodes, ZIP entries or OOXML names as canonical mode
 
 ## Output and persistence
 
-Use `JSON.stringify(workbook.exportSnapshot())` to save canonical document data, and `createWorkbook(JSON.parse(json))` to rehydrate with validation. There is no `writeXlsx` API yet. Formula caches in snapshots may differ from current calculated results; use `getCellValue` for display or downstream processing.
+Use `JSON.stringify(workbook.exportSnapshot())` to save canonical document data, and `createWorkbook(JSON.parse(json))` to rehydrate with validation. Formula caches in snapshots may differ from current calculated results; use `getCellValue` for display or downstream processing.
+
+`writeXlsx(snapshot, options)` exports supported canonical data to XLSX bytes. See [XLSX export](/exporting) for the support profile, explicit failures, formula caches, and output limits.

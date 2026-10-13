@@ -27,7 +27,7 @@ features:
 
 Nori is an initial 0.1.0 milestone, not a full Excel replacement. This repository has not published the package to npm. Use a local packed build today; the stable public import path is `@byfungsi/nori`.
 
-Read the [support matrix](/support) before promising Excel fidelity. XLSX export, dynamic-array spilling, advanced filters, charts, and a React Native renderer are not implemented.
+Read the [support matrix](/support) before promising Excel fidelity. [XLSX export](/exporting) writes the supported canonical subset. Dynamic-array spilling, advanced filters, charts, and a React Native renderer are not implemented.
 
 ## Pick your entry point
 

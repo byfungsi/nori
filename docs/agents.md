@@ -23,7 +23,7 @@ The published documentation is at [byfungsi.github.io/nori](https://byfungsi.git
 7. Keep runtime identity stable in React. Prefer `useState` with a lazy initializer; do not create a new workbook on every render.
 8. `readOnly` is a React view policy. Host-owned mutation controls must obey it; server permissions belong to the host. `SpreadsheetPreview` never edits.
 9. Keep `File`, filesystem, DOM, workers and native APIs outside headless packages. Future native work should reuse core rather than importing `/react`.
-10. Read import warnings and the support matrix. Do not invent `writeXlsx`, `createWorkbookStore`, `FormulaEngine`, dynamic spilling, filter menus, or React Native exports.
+10. Read import warnings and the support matrix. Use `writeXlsx(snapshot, options)` for supported export and preserve formula-cache provenance; see [exporting](/exporting). `createWorkbookStore`, `FormulaEngine`, dynamic spilling, filter menus, and React Native exports are unavailable.
 
 ## Task-oriented reading order
 
